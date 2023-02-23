@@ -20,8 +20,6 @@ commands:
     get                 get credentials from a keyring
     del                 delete a keyring
     view_all            view all keyrings
-
-
 ```
 
  
