@@ -44,16 +44,25 @@ def del_keyring(keyring_name):
 
 
 def view_all_keyrings():
+    print(f"[+] listing all keyrings related to {KEYRING_USERNAME}:")
     conn = secretstorage.dbus_init()
     collection = secretstorage.get_default_collection(conn)
+    counter = 1
     for item in collection.get_all_items():
-        print(f"{item.get_label()}")
-        print(f"{item.get_attributes()}")
-        print("")
+        label = item.get_label()
+        if KEYRING_USERNAME in label:
+
+            print(f"{counter}. {label.split()[-1]}")
+            counter += 1
+            print("")
+
+    if counter == 1:
+        print(f"[x] not found any keyring")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="A helper script that stores credentials in linux keyring")
+
     subparsers = parser.add_subparsers(title="commands",
                                        help="See '[command] --help' for details")
 
