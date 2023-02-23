@@ -123,7 +123,7 @@ if __name__ == "__main__":
     elif args.cmd == "view_all":
         print(f"[+] listing all service_names for {KEYRING_USERNAME}:")
         for service in view_all_keyrings():
-            print(service)
+            print(service.strip("'"))
 
     else:
         parser.print_help(sys.stderr)
