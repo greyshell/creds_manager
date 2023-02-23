@@ -5,7 +5,7 @@
 ### Usage
 
 ```
-u└─$ python creds_manager.py -h         
+└─$ python creds_manager.py -h         
 usage: creds_manager.py [-h] {set,get,del,view_all} ...
 
 A helper script that stores credentials in linux keyring

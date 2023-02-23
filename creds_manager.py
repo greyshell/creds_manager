@@ -10,54 +10,62 @@ import json
 import keyring
 import secretstorage
 
-KEYRING_USERNAME = "kali_creds"
+KEYRING_USERNAME = "kali_nuc12_vault"
 
 
-def get_keyring(keyring_name):
+def get_keyring(service_name):
     try:
-        cred = json.loads(keyring.get_password(keyring_name, KEYRING_USERNAME))
-    except TypeError as e:
-        print(f"error: {e}")
+        cred = json.loads(keyring.get_password(service_name, KEYRING_USERNAME))
+    except TypeError:
+        print(f"[x] error: service_name not found")
         sys.exit(0)
     username = list(cred.keys())[0]
     password = list(cred.values())[0]
     return username, password
 
 
-def set_keyring(keyring_name, username, password):
-    # existing username will overwrite the existing entry
+def set_keyring(service_name, username, password):
     cred = dict()
     cred[username] = password
+    found_flag = False
+    choice = None
     try:
-        keyring.set_password(keyring_name, KEYRING_USERNAME, json.dumps(cred).encode('utf-8'))
+        # if any entry is found
+        if f"'{service_name}'" in view_all_keyrings():
+            found_flag = True
+            choice = input(f"[+] found existing entry, would you like to overwrite [y/n]: ")
+        else:
+            found_flag = False
+
+        if choice == "y" or found_flag is False:
+            # example: mysql service, KEYRING_USERNAME, {root:toor} as binary object
+            keyring.set_password(service_name, KEYRING_USERNAME, json.dumps(cred).encode('utf-8'))
+            print(f"[+] credential is set")
+
     except TypeError as e:
-        print(f"error: {e}")
+        print(f"[x] error: {e}")
         sys.exit(0)
 
 
-def del_keyring(keyring_name):
+def del_keyring(service_name):
     try:
-        keyring.delete_password(keyring_name, KEYRING_USERNAME)
+        if get_keyring(service_name):
+            keyring.delete_password(service_name, KEYRING_USERNAME)
     except (keyring.errors.PasswordDeleteError, TypeError) as e:
-        print(f"error: {e}")
+        print(f"[x] error: {e}")
         sys.exit(0)
 
 
 def view_all_keyrings():
-    print(f"[+] listing all keyrings related to {KEYRING_USERNAME}:")
     conn = secretstorage.dbus_init()
     collection = secretstorage.get_default_collection(conn)
-    counter = 1
+    services = []
     for item in collection.get_all_items():
         label = item.get_label()
         if KEYRING_USERNAME in label:
+            services.append(label.split()[-1])
 
-            print(f"{counter}. {label.split()[-1]}")
-            counter += 1
-            print("")
-
-    if counter == 1:
-        print(f"[x] not found any keyring")
+    return services
 
 
 if __name__ == "__main__":
@@ -105,16 +113,17 @@ if __name__ == "__main__":
 
     if args.cmd == "set":
         set_keyring(args.name, args.username, args.password)
-        print(f"credential is set !!")
     elif args.cmd == "get":
         usr, passwd = get_keyring(args.name)
         print(f"username: {usr}, password: {passwd}")
     elif args.cmd == "del":
         del_keyring(args.name)
-        print(f"deleted keyring: {args.name}")
+        print(f"[+] deleted keyring: {args.name}")
 
     elif args.cmd == "view_all":
-        view_all_keyrings()
+        print(f"[+] listing all service_names for {KEYRING_USERNAME}:")
+        for service in view_all_keyrings():
+            print(service)
 
     else:
         parser.print_help(sys.stderr)
