@@ -94,8 +94,6 @@ if __name__ == "__main__":
     # view all keyrings
     get_keyring_parser = subparsers.add_parser("view_all", description="view all keyrings",
                                                help="view all keyrings")
-    # get_keyring_parser.add_argument("-a", "--name", metavar="",
-    #                                 help="", required=True)
     get_keyring_parser.set_defaults(cmd="view_all")
 
     # get the arguments
