@@ -21,7 +21,15 @@ commands:
     del                 delete a keyring
     view_all            view all keyrings
 ```
+### Silently copy the credentials into clipboard
 
+Update the following lines in zshrc.
+
+```
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+mute_creds_manager() { creds_manager get -n "$1" | cut -d " " -f 4 | pbcopy; }
+```
  
 
 
