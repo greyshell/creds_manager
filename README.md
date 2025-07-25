@@ -4,7 +4,7 @@
 
 ### Usage
 
-```
+```bash
 └─$ python creds_manager.py -h         
 usage: creds_manager.py [-h] {set,get,del,view_all} ...
 
@@ -21,15 +21,24 @@ commands:
     del                 delete a keyring
     view_all            view all keyrings
 ```
-### Silently copy the credentials into clipboard
 
-Update the following lines in zshrc.
+Create an alias in `zshrc` file to run the script from anywhere.
+```bash
+creds_manager() {python3 path/creds_manager.py "$@"}
+```
 
+Example
+
+```bash
+╰─$ creds_manager set -n mysql_service -u mysql_user -p mysql_password
+[+] credential is set
+(venv_3.12.5) ╭─asinha@ubuntu-dev ~ 
+╰─$ creds_manager view_all                             
+[+] listing all service_names for keyring user: ubuntu
+mysql_service
+(venv_3.12.5) ╭─asinha@ubuntu-dev ~ 
+╰─$ creds_manager get -n mysql_service
+username: mysql_user, password: mysql_password
 ```
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
-mute_creds_manager() { creds_manager get -n "$1" | cut -d " " -f 4 | pbcopy; }
-```
- 
 
 

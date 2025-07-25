@@ -9,8 +9,9 @@ import sys
 import json
 import keyring
 import secretstorage
+import pyperclip
 
-KEYRING_USERNAME = "kali_nuc12_vault"
+KEYRING_USERNAME = "ubuntu-dev"
 
 
 def get_keyring(service_name):
@@ -21,7 +22,9 @@ def get_keyring(service_name):
         sys.exit(0)
     username = list(cred.keys())[0]
     password = list(cred.values())[0]
-    return username, password
+    pyperclip.copy(password)  # copies text to clipboard
+
+    return username
 
 
 def set_keyring(service_name, username, password):
@@ -114,8 +117,9 @@ if __name__ == "__main__":
     if args.cmd == "set":
         set_keyring(args.name, args.username, args.password)
     elif args.cmd == "get":
-        usr, passwd = get_keyring(args.name)
-        print(f"username: {usr}, password: {passwd}")
+        usr = get_keyring(args.name)
+        print(f"username: {usr}")
+        print(f"password has been copied to your clipboard")
     elif args.cmd == "del":
         del_keyring(args.name)
         print(f"[+] deleted keyring: {args.name}")
