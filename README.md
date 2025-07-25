@@ -38,7 +38,9 @@ Example
 mysql_service
 (venv_3.12.5) ╭─asinha@ubuntu-dev ~ 
 ╰─$ creds_manager get -n mysql_service
-username: mysql_user, password: mysql_password
-```
+username: root
+password has been copied to your clipboard
 
+```
+The password is securely retrieved without being exposed in the terminal
 
