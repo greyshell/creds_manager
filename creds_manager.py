@@ -157,7 +157,7 @@ if __name__ == "__main__":
         print(f"[+] deleted keyring service: {args.name}")
 
     elif args.cmd == "view":
-        print(f"[+] Retrieving all service_names associated with the keyring user: {KEYRING_USERNAME}")
+        print(f"[+] Retrieving all service names associated with the keyring user: {KEYRING_USERNAME}")
         count = 1
         for service in view_keyring_services():
             print(f"{count}. {service.strip("'")}")
