@@ -33,7 +33,7 @@ Enter your password: *************
 
 (creds_manager_3.12.5) ╭─asinha@ubuntu-dev /mnt/pentest/code_dev/python/utils/creds_manager  ‹main*› 
 ╰─➤  creds_manager view                            
-[+] Retrieving all service_names associated with the keyring user: ubuntu-dev
+[+] Retrieving all service names associated with the keyring user: ubuntu-dev
 1. test_creds
 
 (creds_manager_3.12.5) ╭─asinha@ubuntu-dev /mnt/pentest/code_dev/python/utils/creds_manager  ‹main*› 
