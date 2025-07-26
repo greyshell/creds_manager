@@ -107,7 +107,7 @@ if __name__ == "__main__":
     subparsers = parser.add_subparsers(title="commands",
                                        help="See '[command] --help' for details")
 
-    # set a keyring
+    # set a keyring service
     set_keyring_parser = subparsers.add_parser("set", description="create a keyring service",
                                                help="create a keyring service")
     set_keyring_parser.add_argument("-n", "--name", metavar="",
@@ -117,21 +117,21 @@ if __name__ == "__main__":
 
     set_keyring_parser.set_defaults(cmd="set")
 
-    # get a keyring
+    # get a keyring service
     get_keyring_parser = subparsers.add_parser("get", description="get credentials from a keyring service",
                                                help="get credentials from a keyring service")
     get_keyring_parser.add_argument("-n", "--name", metavar="",
                                     help="provide the keyring service name", required=True)
     get_keyring_parser.set_defaults(cmd="get")
 
-    # delete a keyring
+    # delete a keyring service
     del_keyring_parser = subparsers.add_parser("del", description="delete a keyring service",
                                                help="delete a keyring service")
     del_keyring_parser.add_argument("-n", "--name", metavar="",
                                     help="provide the keyring service name", required=True)
     del_keyring_parser.set_defaults(cmd="del")
 
-    # view all keyrings
+    # view all keyring services
     get_keyring_parser = subparsers.add_parser("view", description=f"Retrieving all service_names associated with the "
                                                                    f"keyring user: {KEYRING_USERNAME}",
                                                help=f"Retrieving all keyring service names associated with the "
