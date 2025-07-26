@@ -30,14 +30,17 @@ commands:
 Enter your password: *************
 
 [+] a new credential has been set
+
 (creds_manager_3.12.5) ╭─asinha@ubuntu-dev /mnt/pentest/code_dev/python/utils/creds_manager  ‹main*› 
 ╰─➤  creds_manager view                            
 [+] Retrieving all service_names associated with the keyring user: ubuntu-dev
 1. test_creds
+
 (creds_manager_3.12.5) ╭─asinha@ubuntu-dev /mnt/pentest/code_dev/python/utils/creds_manager  ‹main*› 
 ╰─➤  creds_manager get -n test_creds               
 username: test_user
 password has been copied to your clipboard
+
 (creds_manager_3.12.5) ╭─asinha@ubuntu-dev /mnt/pentest/code_dev/python/utils/creds_manager  ‹main*› 
 ╰─➤  creds_manager del -n test_creds               
 [+] deleted keyring service: test_creds
@@ -47,5 +50,5 @@ password has been copied to your clipboard
 
 Create an alias in `zshrc` file to run the script from anywhere.
 ```bash
-creds_manager() {python3 direcrory_path_for_creds_manager/creds_manager.py "$@"}
+creds_manager() {python3 FULL_PATH_for_creds_manager.py "$@"}
 ```
