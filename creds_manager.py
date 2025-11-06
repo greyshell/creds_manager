@@ -147,7 +147,12 @@ if __name__ == "__main__":
 
     if args.cmd == "set":
         secret = get_hidden_input("Enter your password: ")
-        set_keyring_service(args.name, args.username, secret)
+        secret_confirm = get_hidden_input("Confirm your password: ")
+        if secret == secret_confirm:
+            set_keyring_service(args.name, args.username, secret)
+        else:
+            print("[x] password mismatch")
+            sys.exit(0)
     elif args.cmd == "get":
         usr = get_keyring_service(args.name)
         print(f"username: {usr}")
