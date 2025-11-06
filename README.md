@@ -26,9 +26,10 @@ commands:
 
 ```bash
 (creds_manager_3.12.5) ╭─asinha@ubuntu-dev /mnt/pentest/code_dev/python/utils/creds_manager  ‹main*› 
-╰─➤  creds_manager set -n test_creds -u "test_user"
-Enter your password: *************
+╰─➤  creds_manager set -n "test_creds" -u "test_user"
+Enter your password: ********
 
+Confirm your password: ********
 [+] a new credential has been set
 
 (creds_manager_3.12.5) ╭─asinha@ubuntu-dev /mnt/pentest/code_dev/python/utils/creds_manager  ‹main*› 
