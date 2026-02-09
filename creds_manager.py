@@ -63,7 +63,7 @@ def set_keyring_service(service_name, username, password):
     choice = None
     try:
         # if any entry is found
-        if f"'{service_name}'" in view_keyring_services():
+        if service_name in view_keyring_services():
             found_flag = True
             choice = input(f"[+] found existing entry, would you like to overwrite [y/n]: ")
         else:
@@ -89,13 +89,34 @@ def del_keyring_service(service_name):
 
 
 def view_keyring_services():
-    conn = secretstorage.dbus_init()
-    collection = secretstorage.get_default_collection(conn)
+    """
+    FIXED: Now properly searches attributes instead of just labels
+    """
+    try:
+        conn = secretstorage.dbus_init()
+        collection = secretstorage.get_default_collection(conn)
+    except Exception as e:
+        print(f"[x] Failed to access keyring: {e}")
+        return []
+
+    # Unlock if locked
+    if collection.is_locked():
+        try:
+            collection.unlock()
+        except Exception as e:
+            print(f"[x] Failed to unlock collection: {e}")
+            return []
+
     services = []
     for item in collection.get_all_items():
-        label = item.get_label()
-        if KEYRING_USERNAME in label:
-            services.append(label.split()[-1])
+        attrs = item.get_attributes()
+
+        # Check if this item was created by Python keyring library for our username
+        if (attrs.get('application') == 'Python keyring library' and
+                attrs.get('username') == KEYRING_USERNAME):
+            service_name = attrs.get('service')
+            if service_name:
+                services.append(service_name)
 
     return services
 
@@ -165,7 +186,7 @@ if __name__ == "__main__":
         print(f"[+] Retrieving all service names associated with the keyring user: {KEYRING_USERNAME}")
         count = 1
         for service in view_keyring_services():
-            print(f"{count}. {service.strip("'")}")
+            print(f"{count}. {service}")
             count += 1
 
     else:
